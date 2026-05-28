@@ -6,9 +6,7 @@
 
 Built with **React**, **TypeScript**, **Vite**, **Node.js**, and **Gemini AI**
 
-<img width="1200" height="475" alt="WorkPulse Banner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-
-[Live Demo](https://workpulse.onrender.com) • [AI Studio App](https://ai.studio/apps/2f60ad04-10d5-43e7-90d7-1f55509277c7)
+)
 
 </div>
 
