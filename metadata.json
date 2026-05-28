@@ -1,0 +1,6 @@
+{
+  "name": "WorkPulse",
+  "description": "A professional SaaS productivity and work management platform to track tasks, projects, notes, skills, goals, and analytics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

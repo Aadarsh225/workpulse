@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function() {
+        if (typeof window !== 'undefined') {
+          // 1. Ensure Formdata doesn't trigger node-fetch style polyfill overrides
+          if (typeof window.Blob === 'undefined') {
+            try { window.Blob = class DummyBlob {}; } catch (e) {}
+          }
+          if (typeof window.FormData === 'undefined') {
+            try {
+              class DummyFormData {
+                append() {}
+                delete() {}
+                get() {}
+                getAll() {}
+                has() {}
+                set() {}
+                *keys() {}
+                *values() {}
+                *entries() {}
+                [Symbol.iterator]() { return this.entries(); }
+              }
+              window.FormData = DummyFormData;
+            } catch (e) {}
+          } else {
+            try {
+              if (!window.FormData.prototype.keys) {
+                window.FormData.prototype.keys = function* () {};
+              }
+              if (!window.FormData.prototype.values) {
+                window.FormData.prototype.values = function* () {};
+              }
+              if (!window.FormData.prototype.entries) {
+                window.FormData.prototype.entries = function* () {};
+              }
+            } catch (e) {}
+          }
+
+          // 2. Safely wrap globalThis and window fetch descriptors to handle overrides gracefully
+          try {
+            var originalFetch = window.fetch;
+            Object.defineProperty(window, 'fetch', {
+              get: function() { return originalFetch; },
+              set: function(v) { originalFetch = v; },
+              configurable: true,
+              enumerable: true
+            });
+          } catch (e) {
+            // If window.fetch is non-configurable, we intercept assignments via Proxy on globalThis if needed
+          }
+
+          try {
+            var originalGlobalFetch = globalThis.fetch;
+            Object.defineProperty(globalThis, 'fetch', {
+              get: function() { return originalGlobalFetch; },
+              set: function(v) { originalGlobalFetch = v; },
+              configurable: true,
+              enumerable: true
+            });
+          } catch (e) {}
+        }
+      })();
+    </script>
+    <title>My Google AI Studio App</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
